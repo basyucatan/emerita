@@ -5,30 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comite extends Model
+class Negocio extends Model
 {
 	use HasFactory;
 	
     public $timestamps = false;
 
-    protected $table = 'comites';
+    protected $table = 'negocios';
 
-    protected $fillable = ['comite','abreviatura','orden','comAsamblea'];
+    protected $fillable = ['negocio','razonSocial','logo','adicionales'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function curriculas()
+    public function empresas()
     {
-        return $this->hasMany('App\Models\Curricula', 'IdComiteAsamblea', 'id');
+        return $this->hasMany('App\Models\Empresa', 'IdNegocio', 'id');
     }
     
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function inquietuds()
+    public function negociosdivs()
     {
-        return $this->hasMany('App\Models\Inquietud', 'IdComiteDes', 'id');
+        return $this->hasMany('App\Models\Negociosdiv', 'IdNegocio', 'id');
     }
     
 }

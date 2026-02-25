@@ -12,14 +12,17 @@ class LivewireCrudGenerator extends LivewireGeneratorCommand
     protected $stubDir;
     protected $argument;
     private $replaces = [];
+    protected bool $useCards = false;
 
-    protected $signature = 'crud:generate {name : Table name}';
+    protected $signature = 'crud:generate {name : Table name}
+        {--cards : Generar vista en cards}';
 
     protected $description = 'Generate Livewire Component and CRUD operations';
 
     public function handle()
     {
         $this->table = $this->getNameInput();
+        $this->useCards = $this->option('cards');
 
         // If table not exist in DB return
         if (!$this->tableExists()) {
@@ -104,22 +107,26 @@ class LivewireCrudGenerator extends LivewireGeneratorCommand
     protected function buildViews()
     {
         $this->warn('Creating:<info> Views ...</info>');
+        $viewStub = $this->useCards
+            ? 'views/view-cards'
+            : 'views/view-tabla';
 
         $tableHead = "\n";
         $tableBody = "\n";
+        $cardBody = "\n";
         $viewRows = "\n";
         $form = "\n";
         $type = null;
-
+        $cardParts = [];
         foreach ($this->getFilteredColumns() as $column) {
             $title = Str::title(str_replace('_', ' ', $column));
 
             $tableHead .= "\t\t\t\t". $this->getHead($title);
             $tableBody .= "\t\t\t\t". $this->getBody($column);
-            $form .= $this->getField($title, $column, 'form-field');
-			$form .= "\n";
+            $form .= $this->getField($title, $column, 'form-field') . "\n";
+            $cardParts[] = "{{ \$row->{$column} }}";
         }
-		
+		$cardBody = implode(' | ', $cardParts);
 		foreach ($this->getColumns() as $values) {
 			$type = "text";
 		}
@@ -127,19 +134,40 @@ class LivewireCrudGenerator extends LivewireGeneratorCommand
         $replace = array_merge($this->buildReplacements(), [
             '{{tableHeader}}' => $tableHead,
             '{{tableBody}}' => $tableBody,
+            '{{cardBody}}'   => $cardBody,
             '{{viewRows}}' => $viewRows,
             '{{form}}' => $form,
+            '{{useCards}}' => $this->useCards ? 'true' : 'false',
             '{{type}}' => $type,
         ]);
 
         $this->buildLayout();
 
         foreach (['view', 'index', 'modals'] as $view) {
+            // VIEW (cards o table)
             $viewTemplate = str_replace(
-                array_keys($replace), array_values($replace), $this->getStub("views/{$view}")
+                array_keys($replace),
+                array_values($replace),
+                $this->getStub($viewStub)
             );
+            $this->write($this->_getViewPath('view'), $viewTemplate);
 
-            $this->write($this->_getViewPath($view), $viewTemplate);
+            // INDEX (siempre igual)
+            $indexTemplate = str_replace(
+                array_keys($replace),
+                array_values($replace),
+                $this->getStub('views/index')
+            );
+            $this->write($this->_getViewPath('index'), $indexTemplate);
+
+            // MODALS (siempre igual)
+            $modalsTemplate = str_replace(
+                array_keys($replace),
+                array_values($replace),
+                $this->getStub('views/modals')
+            );
+            $this->write($this->_getViewPath('modals'), $modalsTemplate);
+
         }
 
         return $this;

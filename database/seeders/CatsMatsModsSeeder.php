@@ -7,22 +7,10 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
 
-class MatsModsSeeder extends Seeder
+class CatsMatsModsSeeder extends Seeder
 {
     public function run()
-    {
-$lineas = array(
-  array('id' => '1','IdMarca' => '1','IdColorablePerfil' => '1','linea' => 'Corrediza 3"','orden' => '10'),
-  array('id' => '12','IdMarca' => '2','IdColorablePerfil' => '2','linea' => 'Corrediza 60','orden' => '10000'),
-  array('id' => '16','IdMarca' => '3','IdColorablePerfil' => NULL,'linea' => 'Vidrio','orden' => '10000'),
-  array('id' => '17','IdMarca' => '4','IdColorablePerfil' => NULL,'linea' => 'Herrajes y accesorios','orden' => '10000'),
-  array('id' => '18','IdMarca' => '5','IdColorablePerfil' => NULL,'linea' => 'Herrajes y accesorios','orden' => '10000'),
-  array('id' => '19','IdMarca' => '6','IdColorablePerfil' => NULL,'linea' => 'Herrajes Varios','orden' => '10000'),
-  array('id' => '20','IdMarca' => '7','IdColorablePerfil' => '3','linea' => 'Cortinas','orden' => '10000')
-);
-DB::table('lineas')->insert($lineas); 
-      
-
+    {            
 $materials = array(
   array('id' => '1','IdClase' => '1','IdLinea' => '1','IdUnidad' => '1','IdTipo' => '1','referencia' => '67826','material' => 'Chambrana','foto' => 'chambrana.jpg','rendimiento' => NULL,'KgxMetro' => '0.7400','IdUnidadRend' => NULL),
   array('id' => '2','IdClase' => '1','IdLinea' => '1','IdUnidad' => '1','IdTipo' => '1','referencia' => '69957','material' => 'Riel','foto' => 'riel.jpg','rendimiento' => NULL,'KgxMetro' => '0.5960','IdUnidadRend' => NULL),
@@ -85,6 +73,23 @@ $reglas = array(
   array('id' => '19','IdLinea' => NULL,'IdMaterial' => '23','IdMatRelacion' => '33','baseCalculo' => 'longitud','efectoCalculo' => 'longitud','factor' => '2.0000','descuento' => NULL)
 );
 DB::table('reglas')->insert($reglas);
+
+$aperturas = array(
+  array('id' => '1','apertura' => 'Fijo','d' => 'M-3-5-3 5-1 5-1 1 2 1 2-1-1-1-1-3 3-3 3-5-3-5Z','emoji' => '🔳'),
+  array('id' => '2','apertura' => 'corredizoDer','d' => 'M-5-2-5 2 2 2 2 5 9 0 2-5 2-2-5-2','emoji' => '➡️'),
+  array('id' => '3','apertura' => 'corredizoIzq','d' => 'M6 2 6-2-1-2-1-5-8 0-1 5-1 2 6 2','emoji' => '⬅️'),
+  array('id' => '4','apertura' => 'Practicable Interior','d' => 'M-5 5Q-2.5 5.5-2 3-2-1-7-8L6-8Q8 3 1 7-2 9-5 8L-5 10-10 6-5 3-5 5','emoji' => '↪️'),
+  array('id' => '5','apertura' => 'Practicable Exterior','d' => 'M-5-3Q-2.5-3.5-2-1-2 3-7 10L6 10Q8-1 1-5-2-7-5-6L-5-8-10-4-5-1-5-3','emoji' => '↩️'),
+  array('id' => '6','apertura' => 'OsciloBatiente','d' => 'M0 0 20 20M0 0 20-20M20-20 0 13M0 13-20-20','emoji' => '🔄'),
+  array('id' => '7','apertura' => 'Proyectante','d' => 'M20-24 0 0M0 0-20-24','emoji' => '🔼'),
+  array('id' => '8','apertura' => 'Abatible','d' => 'M-20 9 0-15M0-15 20 9','emoji' => '🔽'),
+  array('id' => '9','apertura' => 'Basculante','d' => 'M-20 0 0-24 20 0 0 24Z','emoji' => '🔷'),
+  array('id' => '10','apertura' => 'corrdizoDoble','d' => 'M-12,0 L-5,-5 L-5,-2 L2,-2 L2,-5 L9,0 L2,5 L2,2 L-5,2 L-5,5 L-12,0','emoji' => '↔️'),
+  array('id' => '11','apertura' => 'Sin Apertura','d' => 'M 10 10','emoji' => '⛔'),
+  array('id' => '12','apertura' => 'CorredizoAbajo','d' => 'M 2 -5 L -2 -5 L -2 2 L -5 2 L 0 9 L 5 2 L 2 2 L 2 -5','emoji' => '⬇️'),
+  array('id' => '13','apertura' => 'CorredizoArriba','d' => 'M -2 5 L 2 5 L 2 -2 L 5 -2 L -0 -9 L -5 -2 L -2 -2 L -2 5','emoji' => '⬆️')
+);
+DB::table('aperturas')->insert($aperturas);
 
 $modelos = array(
   array('id' => '1','IdLinea' => '1','modelo' => 'OX','foto' => 'OX.jpg','fichaTecnica' => NULL,'estatus' => 'revision','jsonSvg' => NULL,'created_at' => NULL,'updated_at' => '2025-09-01 16:46:42'),

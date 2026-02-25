@@ -11,9 +11,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('IdEmpresa')->nullabled()->constrained('empresas')->setNullOnDelete();
             $table->string('obra',200);
-            $table->string('direccion',200);
             $table->string('gmaps',250)->nullable();
-            $table->string('ubicacion',100)->nullable();
+            $table->json('adicionales')->nullable();
         });        
         Schema::create('presupuestos', function (Blueprint $table) { 
             $table->id();
@@ -40,7 +39,7 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->foreignId('IdPresupuesto')->constrained('presupuestos')->onDelete('cascade');
             $table->foreignId('IdModelo')->constrained('modelos')->onDelete('restrict');
-            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('set null');
+            $table->foreignId('IdDivision')->nullable()->constrained('negociosDivs')->onDelete('set null');
             $table->foreignId('IdColorable')->nullable()->constrained('colorables')->onDelete('cascade');
             $table->foreignId('IdColorPerfil')->nullable()->constrained('colors')->nullOnDelete();
             $table->foreignId('IdVidrio')->nullable()->constrained('vidrios')->nullOnDelete();

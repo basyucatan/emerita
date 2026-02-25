@@ -1,32 +1,42 @@
-@section('title', __('{{modelTitle}}s'))
+@section('title', __('Negocios'))
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="cardPrin">
                 <div class="cardPrin-header">
                     <div>
-                        {{modelTitle}}s
+                        Negocios
                     </div>
                     <div>
                         <input wire:model.live="keyWord" type="text" class="inpSolo" placeholder="Buscar">
                     </div>
                     <div>
-                        <button class="bot botVerde" wire:click="create" title="Nuevo {{modelTitle}}">
+                        <button class="bot botVerde" wire:click="create" title="Nuevo Negocio">
                             <i class="bi bi-file-earmark-plus"></i>
                         </button>                   
                     </div>                
                 </div>
                 <div class="cardPrin-body">
-                    @include('livewire.{{modelNamePluralLowerCase}}.modals')
+                    @include('livewire.negocios.modals')
                     <div class="table-responsive">
                         <table class="table tabBase ch">
                             <thead>
-                                <tr>{{tableHeader}}<th>Acciones</th></tr>
+                                <tr>
+								<th>Negocio</th>
+								<th>Razonsocial</th>
+								<th>Logo</th>
+								<th>Adicionales</th>
+<th>Acciones</th></tr>
                             </thead>
                             <tbody>
-                                @forelse(${{modelNamePluralLowerCase}} as $row)
+                                @forelse($negocios as $row)
                                     <tr>
-                                        {{tableBody}}
+                                        
+								<td>{{ $row->negocio }}</td>
+								<td>{{ $row->razonSocial }}</td>
+								<td>{{ $row->logo }}</td>
+								<td>{{ $row->adicionales }}</td>
+
                                         <td width="60">
                                             <div class="d-flex justify-content-around align-items-center gap-1">
                                                 <button wire:click="edit({{ $row->id }})"
@@ -47,7 +57,7 @@
                             </tbody>
                         </table>
                         <div class="float-end">
-                            {{ ${{modelNamePluralLowerCase}}->links() }}
+                            {{ $negocios->links() }}
                         </div>
                     </div>
                 </div>

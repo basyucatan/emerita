@@ -14,13 +14,9 @@ class NegocioFactory extends Factory
     {
         return [
 			'negocio' => fake()->name(),
-			'rfc' => fake()->name(),
-			'direccion' => fake()->name(),
-			'ciudad' => fake()->name(),
-			'telefono' => fake()->name(),
+			'razonSocial' => fake()->name(),
 			'logo' => fake()->name(),
-			'cuenta' => fake()->name(),
-			'email' => fake()->name(),
+			'adicionales' => fake()->name(),
         ];
     }
 }

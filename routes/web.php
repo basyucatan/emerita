@@ -20,15 +20,6 @@ Route::middleware("auth")->group(function () {
     Route::view('welcome', 'livewire.welcome.index');
     Route::view('mensajes', 'livewire.mensajes.index');
 
-    Route::view('grupos', 'livewire.grupos.index');
-    Route::view('distritos', 'livewire.distritos.index');
-    Route::view('deptos', 'livewire.deptos.index');
-    Route::view('comites', 'livewire.comites.index');
+    Route::view('negocios', 'livewire.negocios.index');
 
-    Route::view('clases', 'livewire.clases.index');
-    Route::view('productos', 'livewire.productos.index');
-    Route::view('comites', 'livewire.comites.index');
-    Route::view('comites', 'livewire.comites.index');
 });
-Route::view('miscelanea', 'livewire.miscelanea.index');
-Route::view('carritos', 'livewire.carritos.index');
