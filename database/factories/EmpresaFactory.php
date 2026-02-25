@@ -13,11 +13,14 @@ class EmpresaFactory extends Factory
     public function definition()
     {
         return [
+			'IdNegocio' => fake()->name(),
 			'tipo' => fake()->name(),
-			'nombre' => fake()->name(),
+			'empresa' => fake()->name(),
 			'direccion' => fake()->name(),
-			'ubicacion' => fake()->name(),
+			'gmaps' => fake()->name(),
 			'telefono' => fake()->name(),
+			'email' => fake()->name(),
+			'adicionales' => fake()->name(),
         ];
     }
 }
