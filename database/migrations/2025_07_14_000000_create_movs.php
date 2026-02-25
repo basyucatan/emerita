@@ -1,0 +1,156 @@
+<?php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('obras', function (Blueprint $table) { //Tulum, Estación Campeche
+            $table->id();
+            $table->foreignId('IdEmpresa')->nullabled()->constrained('empresas')->setNullOnDelete();
+            $table->string('obra',200);
+            $table->string('direccion',200);
+            $table->string('gmaps',250)->nullable();
+            $table->string('ubicacion',100)->nullable();
+        });        
+        Schema::create('presupuestos', function (Blueprint $table) { 
+            $table->id();
+            $table->foreignId('IdCliente')->constrained('empresas')->onDelete('restrict');
+            $table->foreignId('IdObra')->nullable()->constrained('obras')->nullOnDelete();
+            $table->foreignId('IdColorable')->nullable()->constrained('colorables')->onDelete('cascade');
+            $table->foreignId('IdColorPerfil')->nullable()->constrained('colors')->nullOnDelete();
+            $table->foreignId('IdVidrio')->nullable()->constrained('vidrios')->nullOnDelete();
+            $table->foreignId('IdColorVidrio')->nullable()->constrained('colors')->nullOnDelete();
+            $table->date('fecha');
+            $table->float('porDescuento')->nullable()->default(0);
+            $table->float('porRecargo')->nullable()->default(0);
+            $table->text('descripcion')->nullable();
+            $table->string('obs')->nullable();
+            $table->enum('estatus', ['edicion', 'aprobado', 'comprado', 
+                'cortado', 'ensamblado', 'producido', 'instalado', 'terminado']);
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+        });  
+        
+        Schema::create('modelosPre', function (Blueprint $table) {
+            $table->id();
+            $table->smallInteger('consecutivo');
+            $table->string('foto')->nullable();
+            $table->foreignId('IdPresupuesto')->constrained('presupuestos')->onDelete('cascade');
+            $table->foreignId('IdModelo')->constrained('modelos')->onDelete('restrict');
+            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('set null');
+            $table->foreignId('IdColorable')->nullable()->constrained('colorables')->onDelete('cascade');
+            $table->foreignId('IdColorPerfil')->nullable()->constrained('colors')->nullOnDelete();
+            $table->foreignId('IdVidrio')->nullable()->constrained('vidrios')->nullOnDelete();
+            $table->foreignId('IdColorVidrio')->nullable()->constrained('colors')->nullOnDelete();
+            $table->foreignId('IdLamina')->nullable()->constrained('laminas')->nullOnDelete();
+            $table->foreignId('IdGuia')->nullable()->constrained('guias')->nullOnDelete();
+            $table->enum('tipo', ['Puerta', 'Ventana', 'Cortina', 'Herreria', 'otro'])->default('ventana');
+            $table->string('descripcion')->nullable();
+            $table->string('ubicacion',50)->nullable();
+            $table->float('cantidad')->default(1);
+            $table->float('ancho')->default(1000);
+            $table->float('alto')->default(1000);
+            $table->enum('direccion', ['Izquierda','Derecha', 'otro'])->nullable();
+            $table->boolean('precioManual')->default(false);
+            $table->boolean('actualizado')->default(false);
+            $table->double('precioU')->nullable();
+            $table->double('costoU')->nullable();
+            $table->float('porDescuento')->nullable()->default(0);
+            $table->float('porRecargo')->nullable()->default(0);            
+            $table->json('costeo')->nullable();
+            $table->json('divisiones')->nullable();
+            $table->json('adicionales')->nullable();
+            $table->longText('svg')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('modeloPreMats', function (Blueprint $table) { 
+            $table->id();
+            $table->foreignId('IdModeloPre')->constrained('modelosPre')->onDelete('cascade');
+            $table->foreignId('IdMaterialCosto')->nullable()->constrained('materialscostos')->nullOnDelete();
+            $table->foreignId('IdTablaHerraje')->nullable()->constrained('tablaHerrajes')->onDelete('restrict');
+            $table->Integer('cantidadHerraje')->nullable();
+            $table->boolean('principal')->default(false);
+            $table->Integer('cantidad');
+            $table->foreignId('IdMaterial')->nullable()->constrained('materials')->onDelete('restrict');
+            $table->string('diferenciador')->nullable(); //a veces se usa de manera diferente
+            $table->tinyInteger('IdTipo')->unsigned()->nullable(); //Hoja, Marco, Junquillo, alma, etc.
+            $table->string('posicion',2)->nullable();
+            $table->string('formula')->nullable();
+            $table->boolean('errFormula')->nullable();
+            $table->string('dimensiones')->nullable();
+            $table->double('costo')->nullable();
+            $table->string('tipCosto')->nullable();
+            $table->string('obs')->nullable();
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+        });             
+        Schema::create('movInventarios', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('IdUserOri')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('IdUserDes')->nullable()->constrained('users')->nullOnDelete();
+            $table->enum('tipo', [
+                'Compra', 'InvFisico', 'Corte', 'Traspaso', 
+                'Ensamble', 'Entrega', 'Devolucion']);
+            $table->foreignId('IdMatCosto')->constrained('materialscostos')->onDelete('cascade');
+            $table->foreignId('IdDeptoOri')->nullable()->constrained('deptos')->nullOnDelete();
+            $table->foreignId('IdDeptoDes')->nullable()->constrained('deptos')->nullOnDelete();
+            $table->dateTime('fechaH')->useCurrent();
+            $table->decimal('cantidad', 12, 3)->default(0);
+            $table->decimal('valorU', 12, 3)->default(0);
+            $table->string('dimensiones')->nullable();
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+            $table->index(['IdMatCosto', 'IdDeptoOri', 'IdDeptoDes', 'fechaH']);
+        });
+        Schema::create('traspasos', function (Blueprint $table) {
+            $table->id();
+            $table->enum('tipo', [
+                'Compra', 'InvFisico', 'Corte', 'Traspaso', 
+                'Ensamble', 'Entrega', 'Devolucion']);
+            $table->foreignId('IdUserOri')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('IdUserDes')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('IdDeptoOri')->nullable()->constrained('deptos')->nullOnDelete();
+            $table->foreignId('IdDeptoDes')->nullable()->constrained('deptos')->nullOnDelete();
+            $table->dateTime('fecha')->useCurrent();
+            $table->enum('estatus', ['Abierto', 'Cerrado', 'Cancelado'])->default('Abierto');
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+            $table->index(['tipo', 'estatus']);
+        });       
+        Schema::create('traspasosDets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('IdTraspaso')->constrained('traspasos')->cascadeOnDelete();
+            $table->foreignId('IdMatCosto')->nullable()->constrained('materialscostos')->nullOnDelete();
+            $table->decimal('cantidad', 12, 3)->default(0);
+            $table->decimal('valorU', 12, 3)->default(0);
+            $table->string('dimensiones', 100)->nullable();
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('presuCortes', function (Blueprint $table) {
+            $table->id();
+            $table->enum('tipo', ['perfil', 'vidrio'])->default('perfil');
+            $table->foreignId('IdPresupuesto')->constrained('presupuestos')->cascadeOnDelete();
+            $table->foreignId('IdMaterialCosto')->nullable()->constrained('materialscostos')->nullOnDelete();
+            $table->decimal('cantidad', 12, 3)->default(0);
+            $table->json('adicionales')->nullable();
+        });        
+
+    }
+    public function down()
+    {
+        Schema::dropIfExists('obras');
+        Schema::dropIfExists('presupuestos');
+        Schema::dropIfExists('modelosPre');
+        Schema::dropIfExists('modeloPreMats');
+        Schema::dropIfExists('movInventarios');        
+        Schema::dropIfExists('traspasos');        
+        Schema::dropIfExists('traspasosDets');        
+        Schema::dropIfExists('presuCortes');        
+    }
+};
+
