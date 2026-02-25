@@ -20,7 +20,7 @@ Route::middleware("auth")->group(function () {
     Route::view('welcome', 'livewire.welcome.index');
     Route::view('mensajes', 'livewire.mensajes.index');
 
-    Route::view('negocios', 'livewire.empresas.index');
+    Route::view('empresas', 'livewire.empresas.index');
     Route::view('negocios', 'livewire.negocios.index');
 
 });
