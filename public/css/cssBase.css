@@ -95,22 +95,12 @@ html, body {
     justify-content: space-evenly;
     align-items: center; 
 }
-.cardMovil-header {
-    background: linear-gradient(to right, var(--Negro), var(--Blanco));
-    color: var(--Blanco);
-    font-weight: bold;
-    font-size: 1rem;
-    padding: 4px 4px;
-    border-radius: 1rem 1rem 0 0;
-    cursor: move;
-}
 .cardPrin-body {
     background: var(--claro1);
     padding: 0.2rem;
     max-height: 70vh;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-bottom: 30px;
 }
 .cardPrin-footer {
     background: linear-gradient(135deg, var(--primarioC), var(--Negro));
@@ -152,7 +142,6 @@ html, body {
     padding: 0.5rem;
     flex-grow: 1;
     overflow-y: auto;
-    padding-bottom: 30px;
 }
 
 .cardSec-footer {
@@ -262,7 +251,22 @@ html, body {
     font-weight: 600;
     line-height: 1;
 }
+.btnIcono {
+    background: linear-gradient(to bottom left, var(--Blanco), var(--primarioC));
+    cursor: pointer;
+    font-size: .7rem;
+    border-radius: 8px;
+    text-decoration: none;
+}
 
+.btnIconoIz {
+    background: linear-gradient(to bottom left, var(--Blanco), var(--primarioC));
+    cursor: pointer;
+    font-size: 0.7rem;
+    border-radius: 8px;
+    text-decoration: none;
+    padding: 2px 6px;
+}
 .fotoBase {
     display: block;
     margin: 0.5rem auto;

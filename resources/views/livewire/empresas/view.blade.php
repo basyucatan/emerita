@@ -3,70 +3,50 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="cardPrin">
-                <div class="cardPrin-header">
-                    <div>
-                        Empresas
-                    </div>
-                    <div>
-                        <input wire:model.live="keyWord" type="text" class="inpSolo" placeholder="Buscar">
-                    </div>
-                    <div>
-                        <button class="bot botVerde" wire:click="create" title="Nuevo Empresa">
-                            <i class="bi bi-file-earmark-plus"></i>
-                        </button>                   
-                    </div>                
-                </div>
+<div class="cardPrin-header">
+    <div>
+        {{ ucfirst($tipoContexto) }}s
+    </div>
+    <div>
+        <input wire:model.live="keyWord" type="text" class="inpSolo" placeholder="Buscar {{ $tipoContexto }}...">
+    </div>
+    <div>
+        <button class="bot botVerde" wire:click="create" title="Nuevo {{ $tipoContexto }}">
+            <i class="bi bi-file-earmark-plus"></i>
+        </button>
+    </div>
+</div>
                 <div class="cardPrin-body">
                     @include('livewire.empresas.modals')
-                    <div class="table-responsive">
-                        <table class="table tabBase ch">
-                            <thead>
-                                <tr>
-								<th>Idnegocio</th>
-								<th>Tipo</th>
-								<th>Empresa</th>
-								<th>Direccion</th>
-								<th>Gmaps</th>
-								<th>Telefono</th>
-								<th>Email</th>
-								<th>Adicionales</th>
-<th>Acciones</th></tr>
-                            </thead>
-                            <tbody>
-                                @forelse($empresas as $row)
-                                    <tr>
-                                        
-								<td>{{ $row->IdNegocio }}</td>
-								<td>{{ $row->tipo }}</td>
-								<td>{{ $row->empresa }}</td>
-								<td>{{ $row->direccion }}</td>
-								<td>{{ $row->gmaps }}</td>
-								<td>{{ $row->telefono }}</td>
-								<td>{{ $row->email }}</td>
-								<td>{{ $row->adicionales }}</td>
-
-                                        <td width="60">
-                                            <div class="d-flex justify-content-around align-items-center gap-1">
-                                                <button wire:click="edit({{ $row->id }})"
-                                                        class="bot botNaranja"
-                                                        title="Editar">
-                                                    <i class="bi-pencil-square"></i>
-                                                </button>
-                                                <button wire:click="destroy({{ $row->id }})"
-                                                        class="bot botRojo"
-                                                        onclick="confirm('¿Estás seguro de eliminar este registro?') || event.stopImmediatePropagation()">
-                                                    <i class="bi-trash3-fill"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                @endforelse
-                            </tbody>
-                        </table>
-                        <div class="float-end">
-                            {{ $empresas->links() }}
-                        </div>
+                    <div class="row g-1">
+                        @forelse($empresas as $row)
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                <div class="cardSec">
+                                    <div class="cardSec-header">
+                                        {{ $row->empresa }}
+                                    </div>
+                                    <div class="cardSec-body">
+                                        {{ $row->IdNegocio }} | {{ $row->tipo }} | {{ $row->empresa }} | {{ $row->direccion }} | {{ $row->gmaps }} | {{ $row->telefono }} | {{ $row->email }} | {{ $row->adicionales }}
+                                    </div>
+                                    <div class="cardSec-footer d-flex justify-content-end gap-2">
+                                        <button wire:click="edit({{ $row->id }})"
+                                                class="bot botNaranja"
+                                                title="Editar">
+                                            <i class="bi-pencil-square"></i>
+                                        </button>
+                                        <button wire:click="destroy({{ $row->id }})"
+                                                class="bot botRojo"
+                                                onclick="confirm('¿Estás seguro?') || event.stopImmediatePropagation()">
+                                            <i class="bi-trash3-fill"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                        @endforelse
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $empresas->links() }}
                     </div>
                 </div>
             </div>

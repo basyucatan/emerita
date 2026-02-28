@@ -3,7 +3,7 @@
         <div x-data="{}" x-init="dragModal($el)" class="modal-dialog" style="width: 80%;"wire:ignore.self>
             <div class="modal-content">
                 <div class="cardPrin">
-                    <div class="cardMovil-header">
+                    <div class="cardPrin-header">
                         {{ $selected_id ? 'Editar Mensaje' : 'Crear Mensaje' }}
                     </div>
                     <div class="cardPrin-body" style="padding: 0 20px; max-height: 400px; overflow-y: auto;">

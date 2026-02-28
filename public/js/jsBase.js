@@ -110,12 +110,10 @@ document.addEventListener('livewire:init', () => {
     });
 });
 
-
-
 // DRAG AND DROP
 function dragModal(modal) {
     if (!modal) return;
-    const header = modal.querySelector('.cardMovil-header');
+    const header = modal.querySelector('.cardPrin-header');
     if (!header) return;
     let isDragging = false;
     let offsetX = 0, offsetY = 0;

@@ -14,19 +14,19 @@ return new class extends Migration
             $table->string('logo', 200)->nullable();
             $table->json('adicionales')->nullable();
         });      
-        Schema::create('negociosDivs', function (Blueprint $table) {
+        Schema::create('divisions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('IdNegocio')->nullable()->constrained('negocios')->onDelete('cascade');
+            $table->foreignId('IdNegocio')->constrained('negocios')->onDelete('cascade');
             $table->string('division',50);
         });          
         Schema::create('divsCajas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('IdDivision')->nullable()->constrained('negociosDivs')->onDelete('cascade');
+            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('cascade');
             $table->string('caja',50);
         });         
         Schema::create('divsBodegas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('IdDivision')->nullable()->constrained('negociosDivs')->onDelete('cascade');
+            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('cascade');
             $table->string('bodega',50);
         });                      
         Schema::create('empresas', function (Blueprint $table) { //Cliente X, Proveedor X, Contratista X
@@ -55,6 +55,13 @@ return new class extends Migration
             $table->string('telefono',50)->unique();
             $table->json('adicionales')->nullable();
         });
+        Schema::create('obras', function (Blueprint $table) { //Tulum, Estación Campeche
+            $table->id();
+            $table->foreignId('IdEmpresa')->nullabled()->constrained('empresas')->setNullOnDelete();
+            $table->string('obra',200);
+            $table->string('gmaps',250)->nullable();
+            $table->json('adicionales')->nullable();
+        });        
     }
  
 
@@ -65,5 +72,6 @@ return new class extends Migration
         Schema::dropIfExists('empresas');
         Schema::dropIfExists('empresassucs');
         Schema::dropIfExists('contactos');
+        Schema::dropIfExists('obras');
     }
 };

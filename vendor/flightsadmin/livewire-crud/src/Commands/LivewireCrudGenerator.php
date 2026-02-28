@@ -75,31 +75,43 @@ class LivewireCrudGenerator extends LivewireGeneratorCommand
     protected function buildModel()
     {
         $modelPath = $this->_getModelPath($this->name);
-		$livewirePath = $this->_getLivewirePath($this->name);
-        $factoryPath = $this->_getFactoryPath($this->name);
+        $livewirePath = $this->_getLivewirePath($this->name);
+        // $factoryPath = $this->_getFactoryPath($this->name); // ❌ eliminado
 
-        if ($this->files->exists($livewirePath) && $this->ask("Livewire Component ". Str::studly(Str::singular($this->table)) ."Component Already exist. Do you want overwrite (y/n)?", 'y') == 'n') {
+        if (
+            $this->files->exists($livewirePath) &&
+            $this->ask(
+                "Livewire Component " . Str::studly(Str::singular($this->table)) . " Component Already exist. Do you want overwrite (y/n)?",
+                'y'
+            ) == 'n'
+        ) {
             return $this;
         }
 
-        // Make Replacements in Model / Livewire / Migrations / Factories
+        // Replacements
         $replace = array_merge($this->buildReplacements(), $this->modelReplacements());
 
+        // Templates
         $modelTemplate = str_replace(
-            array_keys($replace), array_values($replace), $this->getStub('Model')
+            array_keys($replace),
+            array_values($replace),
+            $this->getStub('Model')
         );
-		$factoryTemplate = str_replace(
-            array_keys($replace), array_values($replace), $this->getStub('Factory')
-        );
+
         $livewireTemplate = str_replace(
-            array_keys($replace), array_values($replace), $this->getStub('Livewire')
+            array_keys($replace),
+            array_values($replace),
+            $this->getStub('Livewire')
         );
+
+        // Crear archivos
         $this->warn('Creating: <info>Livewire Component...</info>');
         $this->write($livewirePath, $livewireTemplate);
-		$this->warn('Creating: <info>Model...</info>');
+
+        $this->warn('Creating: <info>Model...</info>');
         $this->write($modelPath, $modelTemplate);
-        $this->warn('Creating: <info>Factories, Please edit before running Factory ...</info>');
-        $this->write($factoryPath, $factoryTemplate);
+
+        // ❌ Factory eliminado completamente
 
         return $this;
     }

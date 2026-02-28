@@ -194,7 +194,7 @@ $modelosmats = array(
 DB::table('modelosmats')->insert($modelosmats);
 
 $tablaherrajes = array(
-  array('id' => '1','IdLinea' => '12','tablaHerraje' => 'V corrediza 60','fichaTecnica' => NULL,'posicion' => 'Vertical','adicionales' => NULL),
+  array('id' => '1','IdLinea' => '12','tablaHerraje' => 'V corrediza 60','fichaTecnica' => NULL,'adicionales' => NULL),
 );
 DB::table('tablaherrajes')->insert($tablaherrajes);
 

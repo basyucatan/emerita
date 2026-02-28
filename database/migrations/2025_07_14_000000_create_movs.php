@@ -6,14 +6,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up()
-    {
-        Schema::create('obras', function (Blueprint $table) { //Tulum, Estación Campeche
-            $table->id();
-            $table->foreignId('IdEmpresa')->nullabled()->constrained('empresas')->setNullOnDelete();
-            $table->string('obra',200);
-            $table->string('gmaps',250)->nullable();
-            $table->json('adicionales')->nullable();
-        });        
+    {        
         Schema::create('presupuestos', function (Blueprint $table) { 
             $table->id();
             $table->foreignId('IdCliente')->constrained('empresas')->onDelete('restrict');
@@ -39,7 +32,7 @@ return new class extends Migration
             $table->string('foto')->nullable();
             $table->foreignId('IdPresupuesto')->constrained('presupuestos')->onDelete('cascade');
             $table->foreignId('IdModelo')->constrained('modelos')->onDelete('restrict');
-            $table->foreignId('IdDivision')->nullable()->constrained('negociosDivs')->onDelete('set null');
+            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('set null');
             $table->foreignId('IdColorable')->nullable()->constrained('colorables')->onDelete('cascade');
             $table->foreignId('IdColorPerfil')->nullable()->constrained('colors')->nullOnDelete();
             $table->foreignId('IdVidrio')->nullable()->constrained('vidrios')->nullOnDelete();
@@ -105,6 +98,29 @@ return new class extends Migration
             $table->timestamps();
             $table->index(['IdMatCosto', 'IdDeptoOri', 'IdDeptoDes', 'fechaH']);
         });
+        Schema::create('oCompras', function (Blueprint $table) { 
+            $table->id();
+            $table->foreignId('IdDivision')->constrained('divisions')->onDelete('restrict');
+            $table->foreignId('IdProveedor')->constrained('empresas')->onDelete('restrict');
+            $table->foreignId('IdUser')->nullable()->constrained('users')->nullOnDelete('set null');
+            $table->foreignId('IdObra')->nullable()->constrained('obras')->nullOnDelete();
+            $table->bigInteger('IdCondPago')->default(1);
+            $table->bigInteger('IdCondFlete')->default(1);
+            $table->dateTime('fechaHSol');
+            $table->dateTime('fechaERec');
+            $table->float('porDescuento')->nullable()->default(0);
+            $table->string('concepto')->nullable();
+            $table->enum('estatus', ['edicion', 'aprobado', 'comprado','recibido', 'completado']);
+            $table->json('adicionales')->nullable();
+            $table->timestamps();
+        });  
+        Schema::create('oComprasDets', function (Blueprint $table) { 
+            $table->id();
+            $table->foreignId('IdOCompra')->constrained('oCompras')->onDelete('restrict');
+            $table->foreignId('IdMatCosto')->constrained('materialscostos')->onDelete('cascade');
+            $table->float('cantidad')->nullable()->default(0);
+            $table->float('precioU')->nullable()->default(0);
+        });                  
         Schema::create('traspasos', function (Blueprint $table) {
             $table->id();
             $table->enum('tipo', [
@@ -128,7 +144,6 @@ return new class extends Migration
             $table->decimal('valorU', 12, 3)->default(0);
             $table->string('dimensiones', 100)->nullable();
             $table->json('adicionales')->nullable();
-            $table->timestamps();
         });
         Schema::create('presuCortes', function (Blueprint $table) {
             $table->id();
@@ -142,7 +157,6 @@ return new class extends Migration
     }
     public function down()
     {
-        Schema::dropIfExists('obras');
         Schema::dropIfExists('presupuestos');
         Schema::dropIfExists('modelosPre');
         Schema::dropIfExists('modeloPreMats');

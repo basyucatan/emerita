@@ -1,5 +1,5 @@
 <nav class="navbar bg-body-tertiary fixed-top">
-    <div class="container-fluid d-flex align-items-center">
+    <div class="container-fluid">
         <div class="d-flex align-items-center gap-2 flex-shrink-0">
             <button 
                 class="navbar-toggler" 
@@ -39,59 +39,48 @@
                 </form>
             @endguest
         </div>
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menú</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+                <h5 class="offcanvas-title">Menú de Navegación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item">
-                        <a class="nav-link active text-dark fs-4" href="{{ url('/presus') }}">
-                            <i class="bi bi-currency-dollar"></i>⚡Presupuestos
-                        </a>
+                <ul class="navbar-nav pe-3">
+                    <li class="nav-item custom-dropdown-item">
+                        <a href="#" class="nav-link menu-trigger">💰 Ventas y Compras</a>
+                        <ul class="submenu d-none list-unstyled ps-3">                          
+                            <li class="nav-item">
+                                <a href="#" class="nav-link menu-trigger">💸 Compras</a>
+                                <ul class="submenu d-none list-unstyled ps-3 border-start">
+                                    <li><a href="{{ url('/empresas') }}" class="nav-link small">🛒 Orden de Compra</a></li>
+                                    <li><a href="{{ url('/clientes') }}" class="nav-link small">👥 Clientes</a></li>
+                                    <li><a href="{{ url('/proveedores') }}" class="nav-link small">🏢 Proveedores</a></li>
+                                </ul>                                
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            🔗 Catálogos
-                        </a>
-                        <ul class="dropdown-menu show">
-                            <li class="dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">🏢 Empresas</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/negocios') }}" class="dropdown-item">🧰 Empresa</a></li>
-                                    <li><a href="{{ url('/empresas') }}" class="dropdown-item">🏢 Clientes</a></li>
-                                    <li><a href="{{ url('/obras') }}" class="dropdown-item">🏗️ Obras</a></li>
-                                    <li><a href="{{ url('/deptos') }}" class="dropdown-item">📏 Deptos</a></li>
+                </ul>                
+                <ul class="navbar-nav pe-3">
+                    <li class="nav-item custom-dropdown-item">
+                        <a href="#" class="nav-link menu-trigger">🔗 Catálogos</a>
+                        <ul class="submenu d-none list-unstyled ps-3">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link menu-trigger">🧱 Materiales</a>
+                                <ul class="submenu d-none list-unstyled ps-3 border-start">
+                                    <li><a href="{{ url('/fichamats') }}" class="dropdown-item">🗂️ Ficha del Material</a></li>
+                                    <li><a href="{{ url('/tablaherrajes') }}" class="dropdown-item">🛠️ TablaHerrajes</a></li>
                                 </ul>
                             </li>
-                            <li class="dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">🪟 Presupuestos</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/divisions') }}" class="dropdown-item">📌 Divisiones</a></li>
-                                    <li><a href="{{ url('/marcas') }}" class="dropdown-item">🧿 Marcas</a></li>
-                                    <li><a href="{{ url('/lineas') }}" class="dropdown-item">📁 Líneas</a></li>
-                                    <li><a href="{{ url('/modelos') }}" class="dropdown-item">🪟 Modelos</a></li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link menu-trigger">🧰 Configuración</a>
+                                <ul class="submenu d-none list-unstyled ps-3 border-start">
+                                    <li><a href="{{ url('/negocios') }}" class="nav-link small">🏠 Mi Empresa</a></li>
+                                    <li><a href="{{ url('/divisions') }}" class="nav-link small">📌 Divisiones</a></li>
+                                    <li><a href="{{ url('/catalogos') }}" class="nav-link small">🧩 Básicos</a></li>
+                                    <li><a href="{{ url('/vidrios') }}" class="dropdown-item">🪟 Vidrios</a></li>
+                                    <li><a href="{{ url('/clases') }}" class="dropdown-item">🧩 Clases</a></li>
                                 </ul>
                             </li>
-                            @can('admin')
-                                <li class="dropend">
-                                    <a class="dropdown-item dropdown-toggle custom-toggle" href="#">🧱 Materiales</a>
-                                    <ul class="dropdown-menu inner-menu">
-                                        <li><a href="{{ url('/fichamats') }}" class="dropdown-item">🗂️ Ficha Material</a></li>
-                                        <li><a href="{{ url('/vidrios') }}" class="dropdown-item">🪟 Vidrios</a></li>
-                                        <li><a href="{{ url('/clases') }}" class="dropdown-item">🧩 Clases</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropend">
-                                    <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">📦 Inventarios</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ url('/kardex') }}" class="dropdown-item">📇 Kardex</a></li>
-                                        <li><a href="{{ url('/invfisicos') }}" class="dropdown-item">📊 Inv. Físico</a></li>
-                                        <li><a href="{{ url('/compras') }}" class="dropdown-item">🛒 Compras</a></li>
-                                    </ul>
-                                </li>
-                            @endcan
                         </ul>
                     </li>
                 </ul>
@@ -100,20 +89,33 @@
     </div>
 </nav>
 
+<style>
+    /* Estilos para jerarquía visual */
+    .menu-trigger { cursor: pointer; position: relative; }
+    .menu-trigger::after { content: ' ▾'; font-size: 0.8em; color: gray; }
+    .menu-trigger.active::after { content: ' ▴'; }
+    .submenu { background: rgba(0,0,0,0.02); border-radius: 4px; }
+    .nav-link:hover { color: #0d6efd; }
+</style>
+
 <script>
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('custom-toggle')) {
+document.addEventListener('DOMContentLoaded', function() {
+    const menuTriggers = document.querySelectorAll('.menu-trigger');
+    menuTriggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            const menu = e.target.nextElementSibling;
-            const isVisible = menu.classList.contains('show');
-            const parentMenu = e.target.closest('.dropdown-menu');
-            parentMenu.querySelectorAll('.inner-menu').forEach(el => {
-                el.classList.remove('show');
-            });
-            if (!isVisible) {
-                menu.classList.add('show');
+            const nextSubmenu = this.nextElementSibling;
+            if (nextSubmenu) {
+                const isHidden = nextSubmenu.classList.contains('d-none');
+                this.classList.toggle('active');
+                if (isHidden) {
+                    nextSubmenu.classList.remove('d-none');
+                } else {
+                    nextSubmenu.classList.add('d-none');
+                }
             }
-        }
+        });
     });
+});
 </script>

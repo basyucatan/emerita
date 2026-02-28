@@ -9,21 +9,19 @@ class CatsRestoSeeder extends Seeder
     public function run()
     {
 // Empresas
-$negocios = array(
-  array('id' => '1','negocio' => 'Emerita',
-    'razonSocial' => 'PRACTISUR S.A. DE C.V.', 'logo' => 'logo.png')
-);
+$negocios = array(array('id' => '1','negocio' => 'Emerita','razonSocial' => 'PRACTISUR S.A. DE C.V.', 'logo' => 'logo.png'));
 DB::table('negocios')->insert($negocios);
 
-$negociosDivs = array(
-  array('id' => '1','division' => 'Ventanas'),
-  array('id' => '2','division' => 'Cortinas'),
-  array('id' => '3','division' => 'Herrería')
+$divisions = array(
+  array('id' => '1', 'IdNegocio'=>1, 'division' => 'Ventanas'),
+  array('id' => '2', 'IdNegocio'=>1, 'division' => 'Cortinas'),
+  array('id' => '3', 'IdNegocio'=>1, 'division' => 'Herrería')
 );
-DB::table('negociosDivs')->insert($negociosDivs);
+DB::table('divisions')->insert($divisions);
 
 $empresas = array(
-  array('id' => '1', 'tipo' => 'cliente', 'empresa' => 'CLIENTE GENERAL', 'direccion' => 'Calle 100 #123, Centro', 'telefono' => '9991234567')
+  array('id' => '1', 'tipo' => 'cliente', 'empresa' => 'CLIENTE GENERAL', 'direccion' => 'Calle 100 #123, Centro', 'telefono' => '9991234567'),
+  array('id' => '2', 'tipo' => 'proveedor', 'empresa' => 'PROVEEDOR GENERAL', 'direccion' => 'Calle 100 #123, Centro', 'telefono' => '9991234568')
 );
 DB::table('empresas')->insert($empresas);  
 

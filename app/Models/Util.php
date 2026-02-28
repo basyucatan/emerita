@@ -154,6 +154,18 @@ class Util
         return DB::table($tabla)->orderBy($campo, 'asc')->pluck($campo, 'id')->toArray();
     }
 
+    public static function getArrayJS(string $catalogo, string $campo = 'texto'): array
+    {
+        $data = config("settings.catalogos.$catalogo", []);
+        if (empty($data)) {
+            return [];
+        }
+        if (!isset($data[0][$campo])) {
+            throw new \InvalidArgumentException("El campo '{$campo}' no existe en el catálogo '{$catalogo}'");
+        }
+        return collect($data)->sortBy($campo)->pluck($campo, 'id')->toArray();
+    }
+
     public static function borrarArchivo($carpeta, $nombreArchivo)
     {
         if (!$nombreArchivo || !$carpeta) return false;

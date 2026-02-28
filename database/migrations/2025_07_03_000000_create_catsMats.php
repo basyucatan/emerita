@@ -21,7 +21,7 @@ return new class extends Migration
         Schema::create('lineas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('IdMarca')->constrained('marcas')->onDelete('cascade');
-            $table->foreignId('IdDivision')->nullable()->constrained('negociosDivs')->onDelete('set null');
+            $table->foreignId('IdDivision')->nullable()->constrained('divisions')->onDelete('set null');
             $table->foreignId('IdColorablePerfil')->nullable()->constrained('colorables')->onDelete('set null');
             $table->string('linea', 200)->default('nueva línea');
             $table->integer('orden')->unsigned()->default(10000);
@@ -106,7 +106,6 @@ return new class extends Migration
             $table->foreignId('IdLinea')->constrained('lineas')->onDelete('cascade');
             $table->string('tablaHerraje',50);
             $table->string('fichaTecnica',250)->nullable();
-            $table->enum('posicion', ['Horizontal', 'Vertical', 'Otro'])->nullable()->default('Vertical');
             $table->json('adicionales')->nullable();
         });   
         Schema::create('tablaHerrajesDets', function (Blueprint $table) { //perfiles, herrajes, etc.

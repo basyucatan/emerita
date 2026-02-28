@@ -15,17 +15,11 @@ class Negocio extends Model
 
     protected $fillable = ['negocio','razonSocial','logo','adicionales'];
 	
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function empresas()
     {
         return $this->hasMany('App\Models\Empresa', 'IdNegocio', 'id');
     }
     
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function negociosdivs()
     {
         return $this->hasMany('App\Models\Negociosdiv', 'IdNegocio', 'id');

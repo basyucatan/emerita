@@ -26,6 +26,9 @@
                 @yield('content')
             </div>
         </div>
+        <div id="contenido">
+            {{ $slot ?? '' }}
+        </div>        
     </div>
 
 <!-- Leaflet -->
