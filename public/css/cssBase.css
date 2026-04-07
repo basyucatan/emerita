@@ -397,8 +397,7 @@ html, body {
         font-size: 11px !important; /* Un poco más pequeño para móviles */
         padding: 2px 1px;         /* Reducimos el padding al mínimo */
     }
-    /* Opcional: ocultar columnas menos importantes en móvil si es necesario */
-    .d-none-mobile {
+    .d-none-mobile { /* Opcional: ocultar columnas menos importantes en móvil si es necesario */
         display: none !important;
     }
 }
@@ -410,7 +409,6 @@ html, body {
         padding: 6px 4px;           /* Padding cómodo para mouse */
     }
 }
-
 
 .tablaSB th,
 .tablaSB td {

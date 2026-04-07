@@ -39,16 +39,16 @@
     }
 </style>
 <div class="container">
-    <div class="cardPrin text-center overflow-hidden d-flex flex-column" 
-        style="background: linear-gradient(135deg, #0f172a, #1e3a8a); min-height: 300px;">
+    <div class="card text-center overflow-hidden d-flex flex-column" 
+        style="background: linear-gradient(135deg, #0f172a, #1e3a8a); min-height: 400px;">
         
-        <div id="contLogo" class="d-flex justify-content-center" style="height: 140px; margin-top: 30px; position: relative;">
+        <div id="contLogo" style="height: 180px; position: relative; margin-top: 100px; margin-bottom: -30px;">
             <div id="contSvg" class="d-none">
                 @include('logo')
             </div>
         </div>
 
-        <p class="text-white mb-0 mt-0">Sistema Administrativo</p>
+        <p class="text-white mb-0">Sistema Administrativo</p>
         
         <div class="mt-2">
             @auth
